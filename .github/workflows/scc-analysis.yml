@@ -1,0 +1,35 @@
+name: SCC Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  scc-analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Install SCC
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y snapd
+          sudo snap install scc
+
+      - name: Run SCC Analysis
+        run: |
+          scc --format json ./src > scc-report.json
+
+      - name: Upload SCC Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: scc-report
+          path: scc-report.json
+
+      - name: Print SCC Analysis Results
+        run: |
+          cat scc-report.json
