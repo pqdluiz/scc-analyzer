@@ -22,7 +22,7 @@ jobs:
 
       - name: Run SCC Analysis
         run: |
-          scc --format json ./src > scc-report.json
+          scc --format json . > scc-report.json
 
       - name: Upload SCC Report
         uses: actions/upload-artifact@v2
